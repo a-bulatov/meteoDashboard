@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>278</height>
+    <width>426</width>
+    <height>248</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QLCDNumber" name="lcdHour">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>31</x>
       <y>10</y>
       <width>68</width>
       <height>61</height>
@@ -30,7 +30,7 @@
    <widget class="QLCDNumber" name="lcdMinute">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>110</x>
       <y>10</y>
       <width>68</width>
       <height>61</height>
@@ -43,7 +43,7 @@
    <widget class="QLCDNumber" name="lcdSecond">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>180</x>
       <y>40</y>
       <width>41</width>
       <height>31</height>
@@ -56,7 +56,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>100</x>
       <y>30</y>
       <width>16</width>
       <height>31</height>
@@ -77,8 +77,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>66</y>
-      <width>391</width>
+      <y>70</y>
+      <width>321</width>
       <height>20</height>
      </rect>
     </property>
@@ -89,10 +89,10 @@
    <widget class="QLCDNumber" name="lcdHomeTemp">
     <property name="geometry">
      <rect>
-      <x>73</x>
-      <y>162</y>
-      <width>61</width>
-      <height>28</height>
+      <x>330</x>
+      <y>200</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="smallDecimalPoint">
@@ -105,20 +105,20 @@
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>100</x>
       <y>80</y>
-      <width>151</width>
-      <height>111</height>
+      <width>221</width>
+      <height>161</height>
      </rect>
     </property>
    </widget>
    <widget class="QLCDNumber" name="lcdExtTemp">
     <property name="geometry">
      <rect>
-      <x>73</x>
-      <y>133</y>
-      <width>61</width>
-      <height>28</height>
+      <x>330</x>
+      <y>140</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="smallDecimalPoint">
@@ -131,10 +131,10 @@
    <widget class="QLCDNumber" name="lcdPressure">
     <property name="geometry">
      <rect>
-      <x>73</x>
-      <y>77</y>
-      <width>61</width>
-      <height>28</height>
+      <x>330</x>
+      <y>20</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="smallDecimalPoint">
@@ -147,10 +147,10 @@
    <widget class="QLCDNumber" name="lcdHumidity">
     <property name="geometry">
      <rect>
-      <x>73</x>
-      <y>105</y>
-      <width>61</width>
-      <height>28</height>
+      <x>330</x>
+      <y>80</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="smallDecimalPoint">
@@ -163,9 +163,9 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>80</y>
-      <width>67</width>
+      <x>330</x>
+      <y>0</y>
+      <width>91</width>
       <height>17</height>
      </rect>
     </property>
@@ -181,9 +181,9 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>67</width>
+      <x>330</x>
+      <y>60</y>
+      <width>91</width>
       <height>17</height>
      </rect>
     </property>
@@ -199,9 +199,9 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>140</y>
-      <width>67</width>
+      <x>330</x>
+      <y>120</y>
+      <width>91</width>
       <height>17</height>
      </rect>
     </property>
@@ -220,9 +220,9 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>67</width>
+      <x>330</x>
+      <y>180</y>
+      <width>91</width>
       <height>17</height>
      </rect>
     </property>
@@ -238,7 +238,7 @@
    <widget class="QLabel" name="lblDate">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>230</x>
       <y>40</y>
       <width>81</width>
       <height>31</height>
@@ -264,6 +264,64 @@
     </property>
     <property name="text">
      <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdEUR">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>120</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>true</bool>
+    </property>
+    <property name="digitCount">
+     <number>6</number>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdUSD">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>200</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>true</bool>
+    </property>
+    <property name="digitCount">
+     <number>6</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblEUR">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>EUR 0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblUSD">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>USD 0</string>
     </property>
    </widget>
   </widget>

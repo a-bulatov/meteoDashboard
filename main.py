@@ -2,7 +2,7 @@
 # в QTDesigner создаем clock.ui
 # pyuic5 clock.ui -o clock.py
 
-import sys, json
+import sys, json, requests
 from datetime import datetime
 import paho.mqtt.client as mqtt
 
@@ -23,9 +23,11 @@ DAYS = (
 class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
     def __init__(self):
         # Это здесь нужно для доступа к переменным, методам
-        # и т.д. в файле design.py
+        # и т.д. в файле clock.py
         super().__init__()
         self.setupUi(self)  # Это нужно для инициализации нашего дизайна
+
+        self.courses = None
 
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.on_timer)
@@ -55,6 +57,7 @@ class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
         palette.setColor(self.label.foregroundRole(), color)
         self.lblWeekday.setPalette(palette)
 
+        self.check_course(t)
 
 
     def on_message(self, mqttc, obj, msg):
@@ -74,6 +77,28 @@ class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
     def on_disconnect(self, *args):
         #print("on_disconnect", args)
         pass
+
+    def check_course(self, time):
+        if not self.courses is None:
+            if time.hour<11 or time.minute<35 or self.courses['day'] == time.day : return
+        crs = requests.get('https://www.cbr-xml-daily.ru/daily_json.js')
+        if crs.status_code!=200: return
+        crs = json.loads(crs.text)
+        time = crs['Date'][8:10]
+
+        if self.courses is None:
+            self.courses = {'day':int(time)}
+
+        val = crs['Valute']['EUR']
+        txt = ' ' if val['Previous'] == val['Value'] else ('+' if val['Previous']< val['Value'] else '-')
+        self.lblEUR.setText('%s %s' % (val['CharCode'], txt))
+        self.lcdEUR.display(val['Value'])
+
+        val = crs['Valute']['USD']
+        txt = ' ' if val['Previous'] == val['Value'] else ('+' if val['Previous']< val['Value'] else '-')
+        self.lblUSD.setText('%s %s' % (val['CharCode'], txt))
+        self.lcdUSD.display(val['Value'])
+
 
 
 
