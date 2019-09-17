@@ -167,7 +167,7 @@ class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
         x = -10
         self.Line(0, 80, 240, 80, '#808080')
         for n in Hist:
-            pr = n['Pressure'] - 710
+            pr = 160 - (n['Pressure'] - 710)
             hm = 160 - int((160/100) * n['mmHg'])
             et = 80 - n['TempExt'] * 2
             t =  80 - n['Temp'] * 2
@@ -183,15 +183,11 @@ class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
             et0, t0, pr0, hm0 = et, t, pr, hm
 
 
-
-
 def main():
     app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
     window = ExampleApp()  # Создаём объект класса ExampleApp
     window.show()  # Показываем окно
     app.exec_()  # и запускаем приложение
 
-if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
-    main()  # то запускаем функцию main()
-
-
+if __name__ == '__main__':
+    main()
