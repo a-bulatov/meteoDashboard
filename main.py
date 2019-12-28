@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 # в QTDesigner создаем clock.ui
 # pyuic5 clock.ui -o clock.py
+# pip3 install -r requirements.txt
 
-import sys, json, requests
+import sys, json, requests, os
 from datetime import datetime
 import paho.mqtt.client as mqtt
 from PyQt5 import QtWidgets, QtCore, QtGui
+import psycopg2 as DB
 import clock
 
 clPRESSURE = '#B8860B'
@@ -23,6 +25,7 @@ DAYS = (
     "Воскресенье"
 )
 
+CFG = None
 Hist = []
 
 class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
@@ -119,6 +122,16 @@ class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
                  'Temp':     self.HomeTemp
                 })
 
+        if not(CFG is None) and ('db' in CFG):
+            con = DB.connect(**CFG['db'])
+            try:
+                cur = con.cursor()
+                qry = """select wether.from_sensor('%s')""" % json.dumps(msg)
+                cur.execute(qry)
+                con.commit()
+            finally:
+                con.close()
+
 
     def check_course(self, time):
         if not self.courses is None:
@@ -134,12 +147,26 @@ class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
         val = crs['Valute']['EUR']
         txt = ' ' if val['Previous'] == val['Value'] else ('+' if val['Previous']< val['Value'] else '-')
         self.lblEUR.setText('%s %s' % (val['CharCode'], txt))
-        self.lcdEUR.display(val['Value'])
+        EUR = val['Value']
+        self.lcdEUR.display(EUR)
 
         val = crs['Valute']['USD']
         txt = ' ' if val['Previous'] == val['Value'] else ('+' if val['Previous']< val['Value'] else '-')
         self.lblUSD.setText('%s %s' % (val['CharCode'], txt))
-        self.lcdUSD.display(val['Value'])
+        USD = val['Value']
+        self.lcdUSD.display(USD)
+
+        if not(CFG is None) and ('db' in CFG):
+            con = DB.connect(**CFG['db'])
+            try:
+                cur = con.cursor()
+                qry = """insert into currency(d,eur,usd)
+                select now(), %s, %s
+                where not exists(select 1 from currency where d=now()::date)""" % (EUR, USD)
+                cur.execute(qry)
+                con.commit()
+            finally:
+                con.close()
 
     def Line(self, x1, y1, x2, y2, color='black'):
         p1 = QtCore.QPointF(x1, y1)
@@ -167,7 +194,7 @@ class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
         x = -10
         self.Line(0, 80, 240, 80, '#808080')
         for n in Hist:
-            pr = 160 - (n['Pressure'] - 710)
+            pr = 160 - (n['Pressure'] - 740 + 80) # среднее в Москве 740
             hm = 160 - int((160/100) * n['mmHg'])
             et = 80 - n['TempExt'] * 2
             t =  80 - n['Temp'] * 2
@@ -184,6 +211,12 @@ class ExampleApp(QtWidgets.QMainWindow, clock.Ui_MainWindow):
 
 
 def main():
+    p = os.path.dirname(sys.argv[0])+'/config.cfg'
+    if os.path.exists(p):
+        global CFG
+        with open(p,'r') as f:
+            CFG = json.load(f)
+
     app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
     window = ExampleApp()  # Создаём объект класса ExampleApp
     window.show()  # Показываем окно
